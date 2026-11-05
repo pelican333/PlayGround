@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#141026" />
+  <meta name="description" content="Starfall Vale — a cozy 3D pixel-art fantasy farm life game. Tend magical crops, raise mythical animals, fish the dreaming lake, befriend the village, and wake the Starfall Shrine." />
+  <title>Starfall Vale</title>
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene"></canvas>
+    <div id="vignette"></div>
+    <div id="fade"></div>
+
+    <!-- ================= LOADING ================= -->
+    <section id="boot" class="screen">
+      <div class="boot-inner">
+        <div class="boot-star" id="boot-star"></div>
+        <h1 class="logo-lines">STARFALL<small>VALE</small></h1>
+        <p class="boot-tag">a cozy fantasy farm life</p>
+        <div class="load-frame"><div id="load-fill"></div><div class="load-ticks"></div></div>
+        <p id="load-text" class="tiny">waking the lanterns...</p>
+      </div>
+      <p class="boot-foot">pixel art · procedural sound · three-dimensional vale</p>
+    </section>
+
+    <!-- ================= TITLE ================= -->
+    <section id="title" class="screen hidden">
+      <div class="title-shade"></div>
+      <div class="title-wrap">
+        <div class="title-emblem" id="title-emblem"></div>
+        <h1 class="logo-lines big">STARFALL<small>VALE</small></h1>
+        <p class="title-tag">Tend a magical farm. Befriend a small valley.<br>Wake the star that fell.</p>
+        <div class="title-menu">
+          <button id="btn-continue" class="pixel-btn wide primary" aria-label="Continue"><span class="btn-ico" data-glyph="arrow"></span><span id="continue-label">Continue</span></button>
+          <button id="btn-new" class="pixel-btn wide"><span class="btn-ico" data-glyph="star"></span>New Game</button>
+          <button id="btn-load" class="pixel-btn wide"><span class="btn-ico" data-glyph="book"></span>Load Game</button>
+          <button id="btn-title-settings" class="pixel-btn wide"><span class="btn-ico" data-glyph="gear"></span>Settings</button>
+        </div>
+        <div class="title-meta">
+          <span>chapter one</span><span class="dot"></span><span>a game by the vale</span>
+        </div>
+      </div>
+      <div class="title-corner">v1.0 · dedicated to grandmother sable</div>
+    </section>
+
+    <!-- ================= SAVE SLOTS ================= -->
+    <section id="slots" class="screen hidden">
+      <div class="screen-head">
+        <button class="icon-btn back" data-back="title" aria-label="Back"></button>
+        <h2 id="slots-title">LOAD A FARM</h2>
+        <div class="head-pad"></div>
+      </div>
+      <div id="slots-list" class="slots-list"></div>
+      <p class="screen-note" id="slots-note">Three farms can live in the vale at once.</p>
+    </section>
+
+    <!-- ================= CHARACTER CREATION ================= -->
+    <section id="create" class="screen hidden">
+      <div class="screen-head">
+        <button class="icon-btn back" data-back="title" aria-label="Back"></button>
+        <h2>BEGIN YOUR STORY</h2>
+        <div class="head-pad"></div>
+      </div>
+      <div class="create-wrap">
+        <div class="create-preview">
+          <canvas id="preview-canvas" width="360" height="460"></canvas>
+          <div class="preview-ground"></div>
+          <p class="tiny center">drag to turn your farmer</p>
+        </div>
+        <div class="create-form pixel-panel">
+          <div class="field-row">
+            <label for="in-name">Nickname</label>
+            <input id="in-name" maxlength="14" autocomplete="off" spellcheck="false" placeholder="Rowan" />
+          </div>
+          <div class="field-row">
+            <label for="in-farm">Farm name</label>
+            <input id="in-farm" maxlength="18" autocomplete="off" spellcheck="false" placeholder="Moonlit Farm" />
+          </div>
+          <div class="field-block">
+            <label>Favourite thing</label>
+            <div class="favorite-grid" id="favorite-grid"></div>
+            <p class="tiny" id="favorite-desc"></p>
+          </div>
+          <div class="field-block">
+            <label>Skin</label>
+            <div class="swatches" id="skin-swatches"></div>
+          </div>
+          <div class="field-block">
+            <label>Hair</label>
+            <div class="swatches" id="hair-swatches"></div>
+            <div class="style-row" id="hair-styles"></div>
+          </div>
+          <div class="field-block">
+            <label>Outfit</label>
+            <div class="swatches" id="outfit-swatches"></div>
+          </div>
+          <div class="field-block">
+            <label>Hair style</label>
+            <div class="seg-row" id="outfit-styles"></div>
+          </div>
+          <div class="create-actions">
+            <button class="pixel-btn" id="btn-randomize">Randomise</button>
+            <button class="pixel-btn primary big" id="btn-begin">Begin Chapter One</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INTRO ================= -->
+    <section id="intro" class="screen hidden">
+      <div class="intro-panel pixel-panel">
+        <div class="intro-crest" id="intro-crest"></div>
+        <h2 id="intro-title">The Letter</h2>
+        <p id="intro-text"></p>
+        <div class="intro-dots" id="intro-dots"></div>
+        <div class="intro-buttons">
+          <button class="pixel-btn" id="btn-intro-skip">Skip</button>
+          <button class="pixel-btn primary" id="btn-intro-next">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GAME ================= -->
+    <main id="game" class="hidden">
+      <div id="hud">
+        <div class="hud-top-left">
+          <div class="hud-panel date-panel">
+            <img id="season-icon" class="pixel" width="26" height="26" alt="" />
+            <div class="date-copy">
+              <strong id="date-text">Spring 1, Year 1</strong>
+              <span id="weather-text">Sunny</span>
+            </div>
+            <div class="clock-box">
+              <img class="pixel" src="" id="clock-icon" width="18" height="18" alt="" />
+              <span id="time-text">6:00 AM</span>
+            </div>
+          </div>
+          <div class="bars">
+            <div class="bar energy" title="Energy"><img class="pixel" data-glyph-img="energy" width="16" height="16" alt=""><div class="bar-track"><div id="energy-fill"></div></div><span id="energy-text">100</span></div>
+            <div class="bar health hidden" id="health-bar" title="Health"><img class="pixel" data-glyph-img="heart" width="16" height="16" alt=""><div class="bar-track"><div id="health-fill"></div></div><span id="health-text">100</span></div>
+          </div>
+          <div class="money-pill"><img class="pixel" data-glyph-img="coin" width="18" height="18" alt=""><span id="money-text">220</span><small>g</small></div>
+        </div>
+        <div class="hud-top-right">
+          <button class="hud-btn" data-hud="inventory" title="Inventory (I)" aria-label="Inventory"><img class="pixel" data-glyph-img="bag" width="22" height="22" alt=""></button>
+          <button class="hud-btn" data-hud="journal" title="Journal (J)" aria-label="Journal"><img class="pixel" data-glyph-img="book" width="22" height="22" alt=""></button>
+          <button class="hud-btn" data-hud="map" title="Map (M)" aria-label="Map"><img class="pixel" data-glyph-img="map" width="22" height="22" alt=""></button>
+          <button class="hud-btn" data-hud="music" title="Music" aria-label="Toggle music"><img class="pixel" data-glyph-img="sound" id="music-icon" width="22" height="22" alt=""></button>
+          <button class="hud-btn" data-hud="pause" title="Menu (Esc)" aria-label="Pause menu"><img class="pixel" data-glyph-img="gear" width="22" height="22" alt=""></button>
+        </div>
+        <div id="quest-track" class="hud-panel">
+          <div class="quest-head"><img class="pixel" data-glyph-img="book" width="14" height="14" alt=""><span>JOURNAL</span></div>
+          <strong id="quest-title">A New Dawn</strong>
+          <p id="quest-desc">Plant your 20 Moonseeds.</p>
+          <div class="quest-bar"><div id="quest-fill"></div></div>
+        </div>
+        <div id="location-banner"><span id="location-name"></span><small id="location-sub"></small></div>
+        <div id="toasts"></div>
+        <div id="prompt" class="hidden"><img class="pixel" id="prompt-icon" width="28" height="28" alt=""><div><span id="prompt-label"></span><small id="prompt-key">E</small></div></div>
+        <div id="hotbar-wrap">
+          <div id="hotbar"></div>
+          <div id="hotbar-info"><span id="hotbar-name">Moonsteel Hoe</span><span id="hotbar-hint">E / tap action</span></div>
+        </div>
+        <div id="touch-ui">
+          <div id="joystick"><div id="joystick-base"></div><div id="joystick-stick"></div></div>
+          <div class="touch-right">
+            <div class="cam-pad">
+              <button class="round-btn small" data-cam="left" aria-label="Rotate camera left"><span class="cam-arrow left"></span></button>
+              <button class="round-btn small" data-cam="right" aria-label="Rotate camera right"><span class="cam-arrow right"></span></button>
+            </div>
+            <button id="action-btn" class="round-btn action" aria-label="Use"><img class="pixel" data-glyph-img="star" width="26" height="26" alt=""><span id="action-label">USE</span></button>
+          </div>
+        </div>
+        <div id="festival-note" class="hidden"></div>
+      </div>
+    </main>
+
+    <!-- ================= MODALS ================= -->
+    <div id="modal-layer" class="layer hidden">
+      <div class="modal-back"></div>
+      <div class="modal-scroll">
+        <div id="modal" class="pixel-panel">
+          <div class="modal-head"><h2 id="modal-title">Inventory</h2><button class="icon-btn close" id="modal-close" aria-label="Close"></button></div>
+          <div id="modal-body"></div>
+          <div id="modal-foot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= DIALOGUE ================= -->
+    <div id="dialogue-layer" class="layer hidden">
+      <div class="dialogue-box pixel-panel">
+        <div class="portrait-frame"><img id="dialogue-portrait" class="pixel" width="128" height="128" alt=""></div>
+        <div class="dialogue-copy">
+          <div class="speaker"><strong id="dialogue-name">Elowen</strong><span id="dialogue-title">Herbalist of the Vale</span></div>
+          <div id="dialogue-hearts" class="hearts-row"></div>
+          <p id="dialogue-text"></p>
+          <div id="dialogue-buttons" class="dialogue-buttons"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BOND CINEMATIC ================= -->
+    <div id="bond-layer" class="layer hidden">
+      <div class="bond-bg"></div>
+      <canvas id="bond-hearts" width="640" height="360"></canvas>
+      <div class="bond-scene">
+        <div class="bond-portrait-wrap"><img id="bond-portrait" class="pixel" width="192" height="192" alt=""><div class="bond-ring"></div></div>
+        <div class="bond-copy">
+          <p class="bond-kicker">A BOND DEEPENS</p>
+          <h2 id="bond-name">Elowen</h2>
+          <div id="bond-heart-row" class="hearts-row big-hearts"></div>
+          <p id="bond-text"></p>
+          <button class="pixel-btn primary" id="bond-next">Continue</button>
+        </div>
+      </div>
+      <div class="bond-vignette"></div>
+    </div>
+
+    <!-- ================= FISHING ================= -->
+    <div id="fishing-layer" class="layer hidden">
+      <div class="fish-wrap">
+        <canvas id="fish-canvas" width="420" height="480"></canvas>
+        <div class="fish-tip">HOLD to raise the net · release to fall</div>
+        <button id="fish-hold" class="pixel-btn primary">HOLD</button>
+        <div id="fish-catch" class="fish-catch hidden"><img id="fish-img" class="pixel" width="64" height="64" alt=""><strong id="fish-name"></strong><span id="fish-size"></span></div>
+      </div>
+    </div>
+
+    <!-- ================= ENDING ================= -->
+    <div id="ending-layer" class="layer hidden">
+      <canvas id="ending-canvas"></canvas>
+      <div class="ending-copy">
+        <p class="ending-kicker">CHAPTER ONE</p>
+        <h2 id="ending-title">The Shrine Sings</h2>
+        <p id="ending-text"></p>
+        <div id="ending-stats"></div>
+        <div class="ending-actions">
+          <button class="pixel-btn primary" id="ending-continue">Keep Living in the Vale</button>
+          <button class="pixel-btn" id="ending-title-btn">Return to Title</button>
+        </div>
+        <p class="ending-foot">the vale remembers</p>
+      </div>
+    </div>
+
+    <!-- ================= CONFIRM ================= -->
+    <div id="confirm-layer" class="layer hidden">
+      <div class="confirm-box pixel-panel">
+        <h3 id="confirm-title">Are you sure?</h3>
+        <p id="confirm-text"></p>
+        <div class="row-end">
+          <button class="pixel-btn" id="confirm-no">No</button>
+          <button class="pixel-btn primary" id="confirm-yes">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="rotate-hint" class="hidden">Turn your device sideways for a wider view of the vale.</div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
