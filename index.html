@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#18251e" />
+  <title>Hearthwild — A Wildwood Chronicle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="world" aria-label="Hearthwild adventure game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">✦</div><div><span class="brand-name">HEARTHWILD</span><span class="brand-sub">A WILDWOOD CHRONICLE</span></div></div>
+      <div class="day-pill"><span class="sun-icon">☼</span><span id="day-label">DAY 01</span><i></i><span id="time-label">MORNING</span></div>
+      <button class="icon-button" id="journal-button" aria-label="Open journal">☰<span>JOURNAL</span><kbd>J</kbd></button>
+    </header>
+    <section class="quest-card panel">
+      <div class="eyebrow"><span class="spark">✦</span> CURRENT TALE</div>
+      <h2 id="quest-title">A Light in the Hollow</h2>
+      <p id="quest-description">Speak with Elder Rowan in the village square.</p>
+      <div class="quest-progress"><span id="quest-dot"></span><span id="quest-progress-label">THE FIRST THREAD</span></div>
+    </section>
+    <div class="location-label"><span class="location-icon">⌖</span><div><b id="location-name">MOSSGLEN VILLAGE</b><small id="location-sub">A quiet place to begin again</small></div></div>
+    <aside class="map-card panel"><div class="map-head"><span>THE WILDS</span><span class="map-north">N ↑</span></div><canvas id="minimap" width="180" height="132"></canvas><div class="map-legend"><i></i> YOU ARE HERE</div></aside>
+    <section class="status-row"><div class="health-wrap"><span class="status-icon">♡</span><div class="health-track"><div id="health-fill"></div></div><span id="health-value">100</span></div><div class="stamina-wrap"><span>✦</span><div class="stamina-track"><div id="stamina-fill"></div></div></div></section>
+    <section class="hotbar panel"><div class="hot-slot active" data-slot="0"><kbd>1</kbd><span>⚔</span><small>WILLOWBLADE</small></div><div class="hot-slot" data-slot="1"><kbd>2</kbd><span>✧</span><small>GATHER</small></div><div class="hot-slot" data-slot="2"><kbd>3</kbd><span>◉</span><small>HEALING TEA</small></div><div class="hot-help">Q <span>ROLL</span><b>·</b> E <span>INTERACT</span></div></section>
+    <div class="interaction-hint" id="interaction-hint" hidden><kbd>E</kbd><span id="interaction-text">Talk</span></div>
+    <div class="toast" id="toast"></div>
+    <div class="mobile-controls"><button data-move="up">▲</button><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button><button id="mobile-action">✦</button></div>
+    <div class="screen" id="intro-screen">
+      <div class="intro-art"><div class="art-sun"></div><div class="art-mountain mountain-back"></div><div class="art-mountain mountain-front"></div><div class="art-tree tree-a">♠</div><div class="art-tree tree-b">♠</div><div class="art-house">⌂</div></div>
+      <div class="intro-copy"><div class="eyebrow"><span class="spark">✦</span> AN OPEN-WORLD TALE</div><h1>Find your way<br>back <em>to wonder.</em></h1><p>Beyond the village lanterns, the wilds are waking. Follow the old clues, mend what has been lost, and discover where your story ends.</p><div class="intro-meta"><span>✧ &nbsp;A WORLD TO WANDER</span><span>⌘ &nbsp;A STORY TO KEEP</span></div><button class="primary-button" id="begin-button">STEP INTO THE WILDS <span>→</span></button><div class="control-note">WASD / ARROWS TO MOVE <i>•</i> E TO INTERACT <i>•</i> SPACE TO STRIKE</div></div>
+    </div>
+    <div class="screen modal-screen" id="journal-screen" hidden><div class="journal panel"><button class="close-button" data-close>×</button><div class="eyebrow"><span class="spark">✦</span> YOUR JOURNAL</div><h2>Threads of the wild</h2><p class="journal-lead">A few things to remember as you find your feet.</p><div class="journal-tabs"><button class="selected" data-tab="story">THE TALE</button><button data-tab="inventory">PACK</button><button data-tab="crafting">CRAFTING</button></div><div id="journal-content" class="journal-content"></div><div class="journal-footer"><span>THE WORLD REMEMBERS YOUR KINDNESS.</span><span>J TO RETURN</span></div></div></div>
+    <div class="screen modal-screen" id="dialogue-screen" hidden><div class="dialogue-card panel"><div class="dialogue-avatar" id="dialogue-avatar">R</div><div class="eyebrow" id="dialogue-role">VILLAGE ELDER</div><h2 id="dialogue-name">Elder Rowan</h2><p id="dialogue-text"></p><button class="primary-button" id="dialogue-next">LISTEN <span>→</span></button></div></div>
+    <div class="screen ending-screen" id="ending-screen" hidden><div class="ending-card"><div class="ending-mark">✦</div><div class="eyebrow">THE WILDWOOD CHRONICLE</div><h1>A light<br><em>that stays.</em></h1><p id="ending-copy">The Hollow is whole again.</p><div class="ending-stats" id="ending-stats"></div><button class="primary-button" id="continue-button">KEEP WANDERING <span>→</span></button></div></div>
+    <div class="mobile-action-bar"><button id="mobile-interact">E&nbsp; INTERACT</button><button id="mobile-attack">⚔</button><button id="mobile-roll">↗</button></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
