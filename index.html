@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#101a1b" />
+  <title>Blockbound — Wildwood RPG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Blockbound home"><span class="brand-mark">▦</span><span>BLOCK<span class="brand-light">BOUND</span></span></a>
+      <div class="region"><span class="region-dot"></span><span id="regionName">WILDWOOD FRONTIER</span><span class="coord" id="coords">X 08 · Y 12</span></div>
+      <div class="top-actions"><div class="day-pill"><span>☀</span><span id="dayLabel">DAY 01</span></div><button id="soundBtn" class="icon-button" aria-label="Toggle sound">♫</button><button id="helpBtn" class="icon-button" aria-label="Controls">?</button></div>
+    </header>
+    <section class="play-layout">
+      <div class="game-column">
+        <div class="viewport-frame">
+          <canvas id="game" width="960" height="600" aria-label="Blockbound game world"></canvas>
+          <div class="viewport-shade"></div>
+          <div class="world-label"><span class="label-line"></span><span id="areaLabel">MOSSY CROSSING</span></div>
+          <div class="weather">☀ <span>24°</span></div>
+          <div class="toast" id="toast"></div>
+          <div class="interact-hint" id="interactHint"><kbd>E</kbd> <span>Talk to Elder Rowan</span></div>
+          <div class="level-pop" id="levelPop">LEVEL UP!</div>
+          <div class="mobile-pad" id="mobilePad" aria-label="Movement controls">
+            <button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button>
+          </div>
+          <button class="mobile-attack" id="mobileAttack" aria-label="Attack">⚔</button>
+          <div class="overlay" id="startOverlay">
+            <div class="intro-card">
+              <div class="intro-eyebrow"><span></span> A BLOCK-BUILT ADVENTURE</div>
+              <div class="pixel-title">BLOCK<br><span>BOUND</span></div>
+              <p>Beyond the village lights, something stirs in the old woods.</p>
+              <button class="primary-button" id="startBtn">ENTER THE WILDS <span>→</span></button>
+              <div class="intro-foot"><span>WASD / ARROWS TO MOVE</span><span>SPACE TO SWING</span></div>
+            </div>
+          </div>
+          <div class="modal-overlay hidden" id="dialogOverlay">
+            <div class="dialog-card"><div class="dialog-avatar">♙</div><div class="dialog-kicker">ELDER ROWAN · MOSSY CROSSING</div><h2 id="dialogTitle">The woods are restless.</h2><p id="dialogText">Little green things have crept from the old ruins. Clear three slimes and I'll open the way to the Sunstone Shrine.</p><div class="dialog-reward"><span>✦ QUEST</span><span>3 SLIMES · 40 XP · 25 COINS</span></div><button id="dialogClose" class="primary-button">I'LL TAKE THE QUEST <span>→</span></button><button id="dialogDismiss" class="text-button">NOT NOW</button></div>
+          </div>
+          <div class="modal-overlay hidden" id="helpOverlay"><div class="help-card"><button class="modal-x" id="helpClose">×</button><div class="dialog-kicker">FIELD GUIDE</div><h2>Controls & craft</h2><div class="control-row"><kbd>W A S D</kbd><span>Move through the world</span></div><div class="control-row"><kbd>SPACE</kbd><span>Swing your wooden sword</span></div><div class="control-row"><kbd>E</kbd><span>Talk, open gates, gather</span></div><div class="control-row"><kbd>1 / 2 / 3</kbd><span>Choose your hotbar item</span></div><div class="control-row"><kbd>H</kbd><span>Drink a health potion</span></div><p class="guide-note">Slimes drop coins and experience. Stay close, face your foe, and keep an eye on your hearts.</p></div></div>
+          <div class="modal-overlay hidden" id="winOverlay"><div class="dialog-card win-card"><div class="win-spark">✦</div><div class="dialog-kicker">THE SUNSTONE SHRINE</div><h2>The light returns.</h2><p>You restored the old shrine and saved Wildwood. The frontier is yours to explore.</p><button id="winContinue" class="primary-button">KEEP EXPLORING <span>→</span></button></div></div>
+        </div>
+        <div class="game-controls">
+          <div class="hotbar" id="hotbar">
+            <button class="slot selected" data-slot="1"><span class="slot-num">1</span><span class="item-icon">⚔</span><span class="item-name">Sword</span></button>
+            <button class="slot" data-slot="2"><span class="slot-num">2</span><span class="item-icon">⛏</span><span class="item-name">Pickaxe</span></button>
+            <button class="slot" data-slot="3"><span class="slot-num">3</span><span class="item-icon">✦</span><span class="item-name">Potion</span><span class="item-count" id="potionCount">2</span></button>
+          </div>
+          <div class="action-hint"><kbd>SPACE</kbd><span>ATTACK</span><kbd>E</kbd><span>INTERACT</span></div>
+          <div class="quick-stats"><span>✦ <b id="coinCount">12</b></span><span>◆ <b id="xpCount">0</b> XP</span></div>
+        </div>
+      </div>
+      <aside class="sidebar">
+        <section class="panel player-panel">
+          <div class="panel-heading"><span>ADVENTURER</span><span class="online-dot"></span></div>
+          <div class="player-card"><div class="portrait"><div class="portrait-sprite"><i></i></div><span class="level-badge" id="levelBadge">1</span></div><div class="player-info"><div class="player-name">Wanderer</div><div class="player-subtitle">WOODLAND SCOUT</div><div class="xp-track"><div id="xpBar" class="xp-fill"></div></div><div class="xp-caption"><span>LEVEL <b id="levelText">01</b></span><span><b id="xpProgress">0</b> / 50 XP</span></div></div></div>
+          <div class="vitals"><div class="vital-label"><span>VITALS</span><span id="hpText">100 / 100</span></div><div class="hearts" id="hearts"></div></div>
+        </section>
+        <section class="panel quest-panel">
+          <div class="panel-heading"><span>ACTIVE QUEST</span><span class="quest-star">✦</span></div>
+          <div class="quest-title" id="questTitle">A GREEN MENACE</div><p id="questDescription">Clear the slimes from the old forest. Elder Rowan is waiting near the well.</p>
+          <div class="quest-progress-row"><span id="questProgressLabel">SLIMES DEFEATED</span><b id="questCount">0 / 3</b></div><div class="quest-track"><div class="quest-fill" id="questFill"></div></div>
+          <div class="quest-reward"><span>REWARD</span><b>✦ 25 &nbsp; ◆ 40 XP</b></div>
+        </section>
+        <section class="panel map-panel">
+          <div class="panel-heading"><span>FIELD MAP</span><span class="map-coords" id="mapCoords">08, 12</span></div>
+          <div class="minimap-wrap"><canvas id="minimap" width="180" height="130"></canvas><div class="map-north">N ↑</div></div>
+          <div class="map-legend"><span><i class="legend-player"></i>YOU</span><span><i class="legend-town"></i>VILLAGE</span><span><i class="legend-enemy"></i>SLIME</span></div>
+        </section>
+        <div class="tip-card"><span class="tip-icon">☼</span><div><b>FIELD NOTE</b><p id="tipText">Slimes are vulnerable after they leap. Wait for them to land, then strike!</p></div></div>
+        <div class="sidebar-footer"><span>WILDWOOD FRONTIER</span><span>BUILD 0.1.4</span></div>
+      </aside>
+    </section>
+    <footer class="bottom-bar"><span>✣ <b>WILDWOOD</b> IS A WORLD OF ITS OWN</span><span>PIXEL BY PIXEL <i>♥</i></span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
