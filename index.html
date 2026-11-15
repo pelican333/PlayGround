@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101b1b" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <title>Warden of the Hollow — A Moonlit Boss Fight</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Warden of the Hollow"><span class="brand-mark">✦</span><span>HOLLOWFALL <i>·</i> THE LAST LIGHT</span></a>
+      <div class="chapter">CHAPTER I <span> / </span> THE HOLLOW</div>
+      <button id="soundBtn" class="sound-btn" aria-label="Toggle sound" title="Toggle sound">♫ <span>Sound on</span></button>
+    </header>
+    <section class="game-frame" aria-label="Warden of the Hollow game">
+      <canvas id="game" width="1000" height="640" aria-label="Fight the Hollow Warden"></canvas>
+      <div class="hud">
+        <div class="hero-status">
+          <div class="hero-line"><span class="eyebrow">WAYFARER</span><span id="healthText">100 / 100</span></div>
+          <div class="health-track"><div id="healthFill" class="health-fill"></div></div>
+          <div class="flasks"><span class="flask-icon">✦</span><span id="flaskText">3</span><span class="flask-label">SUNDEW FLASKS</span><button id="healBtn" aria-label="Drink a healing flask">Drink <kbd>Q</kbd></button></div>
+        </div>
+        <div class="boss-status">
+          <div class="boss-line"><span class="boss-name">THE HOLLOW WARDEN</span><span id="phaseText">ANCIENT SENTINEL</span></div>
+          <div class="boss-track"><div id="bossFill" class="boss-fill"></div></div>
+        </div>
+        <div id="toast" class="toast" aria-live="polite"></div>
+        <div class="hint"><span class="hint-dot"></span><span id="hintText">A forgotten shrine stirs...</span></div>
+      </div>
+      <div id="overlay" class="overlay">
+        <div class="intro-card">
+          <div class="overline"><span></span> A HOLLOWFALL TALE <span></span></div>
+          <h1 id="overlayTitle">The Warden<br><em>Awakens</em></h1>
+          <p id="overlayCopy">The old forest has gone quiet. At its heart, a guardian keeps the last ember—and will not let it go willingly.</p>
+          <div class="story-note"><span>✦</span><span>Defeat the Hollow Warden and bring the dawn back to the woods.</span></div>
+          <button id="startBtn" class="primary-btn">Enter the grove <span>→</span></button>
+          <div class="controls"><div><kbd>W A S D</kbd><span>Move</span></div><div><kbd>CLICK</kbd><span>Strike</span></div><div><kbd>SPACE</kbd><span>Roll</span></div><div><kbd>Q</kbd><span>Heal</span></div></div>
+          <div class="mobile-note">On touch: drag to move · tap Strike and Roll</div>
+        </div>
+      </div>
+      <div id="touchControls" class="touch-controls" aria-label="Touch controls">
+        <div id="joystick" class="joystick"><div class="joy-knob"></div></div>
+        <div class="touch-actions"><button id="touchRoll" class="touch-action roll-action">↗<small>ROLL</small></button><button id="touchAttack" class="touch-action attack-action">✦<small>STRIKE</small></button></div>
+      </div>
+      <div id="flash" class="flash"></div>
+    </section>
+    <footer><span>✧ <b>THE HOLLOW</b> — OLD GROWTH FOREST</span><span class="footer-tip">Keep moving. Watch for the red glow.</span><span>AN ADVENTURE IN MINIATURE <b>· 01</b></span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
